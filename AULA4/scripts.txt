@@ -1,0 +1,53 @@
+
+--para selecionar linhas em uma tabela o comando SELECT
+--depois os nomes das colunas separados por virgulas, mas se quiser todas basta colocar *
+--from + nome da tabela que é o alvo de busca
+
+--para inserir dados em uma tabela utilizar o comando INSERT INTO + o nome da tabela 
+--infromar quais colunas deseja preencher
+--e respectivamente informar os valores após o comando VALUES
+
+select * from pessoas 
+--selecionar todos os campos de tabela pessoa 
+--onde a idade seja 
+
+insert into pessoas (nome,idade) values ("bruna",8)
+
+where
+
+  idade <=18
+  
+--para fazer buscas parciais por texto utilize like "%valor%"
+  
+select *from pessoas
+ where
+nome like "%bruna%"
+ 
+--para fazer buscas que começam com TAL valor utilizado like "valor%"
+select * from pessoas 
+where
+nome like "b%"
+
+--para fazer buscas que terminam com TAL valor utilizo like "%valor"
+  select *from pessoas
+  where
+  nome like "%a"
+
+--trazer todas as pessoas que iniciam com P  e tem idade <=20
+select *from pessoas 
+where 
+  nome like "P%"
+  and idade<=40
+
+
+select idade,id,nome from pessoas
+where 
+idade=10
+
+insert into pessoas (nome) values ("tester")
+
+
+
+
+
+
