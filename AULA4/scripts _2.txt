@@ -1,0 +1,171 @@
+select * from pessoas
+
+select * from usuarios;
+
+insert into usuarios (nome,email,senha) values ("carlinho","carlinhotv@gmail.com","carli123") 
+
+insert into usuarios (nome,email,senha) values("paulin","paulin123@gmail.com","pal123"); 
+insert into usuarios (nome,email,senha) values("paulinha","paulinha123@gmail.com","pala123"); 
+insert into usuarios (nome,email,senha) values("maria","maria123@gmail.com","mar123"); 
+insert into usuarios (nome,email,senha) values("dalmo","dalmo123@gmail.com","pal123"); 
+
+--id 1 é flavia 
+
+select * from telefones;
+
+insert into telefones (tipo,numero_completo,usuario_id)
+values("residencial","(47) 9 0000-0000",1);
+
+insert into telefones (tipo,numero_completo,usuario_id)
+values("flavia","(47) 9 0007-0009",3);
+
+insert into telefones (tipo,numero_completo,usuario_id)
+values("paulin","(011) 9 9922 0202",4);
+
+insert into telefones (tipo,numero_completo,usuario_id)
+values("maria","(44) 9 9977 9090",2);
+
+insert into telefones (tipo,numero_completo,usuario_id)
+values("residencial","(49) 9 8899-8890",2);
+
+select *
+from usuarios 
+inner join telefones on telefones.usuario_id=usuarios.id;
+--o inner é um tip de relacionamento restrito onde os valores comparados 
+--devem existir em ambas tabelas
+
+--o left join é um tipo de ralcionamneto menos relativo
+--onde basta existir dados na tabela principal dessa forma os dados da tabela secundária
+--ficarão nulos (mas os resultados sao exiibidos em linha)
+select * from telefones;
+
+select 
+ usu.nome,
+ usu.email,
+ usu.senha,
+ tel.tipo,
+ tel.numero_completo
+from usuarios as usu
+ left join telefones as tel on tel.usuario_id=usu.id
+ 
+where 
+ tel.numero_completo like "%00%"
+ and  tel.numero_completo like "%9"
+;
+
+--criar 2 tabelas 
+-- 1ª tabela SERIES 
+-- ID bla bla bla
+-- nome 
+--ano 
+--genero
+--diretor
+ 
+ create table series(
+  id integer primary key autoincrement unique,
+  nome text not null,
+  ano integer no null,
+  genero text,
+  diretor text
+);
+  
+create table episodios(
+id integer primary key autoincrement unique,
+titulo text not null,
+sequencia integer not null,
+descricao text,
+serie_id integer references series(id)
+
+);
+
+==============================
+
+
+select * from series;
+
+insert into series(nome,ano,genero,diretor)  values("vikings","2019","ação","michael");
+
+insert into series(nome,ano,diretor) values ("la casa de papel","2019","professor");
+
+insert into series(nome,ano,genero) values("the witcher","2020","fantasia");
+
+insert into series(nome,ano,genero) values("one piece","1997","açao");
+insert into series(nome,ano,genero) values("naruto","2002","anime");
+insert into series(nome,ano,genero) values("bleach","2004","anime");
+insert into series(nome,ano,genero) values("the boys ","2020","açao");
+
+
+select genero,count(*) from series
+group by genero
+;
+
+
+select count(*) from series
+where
+ano=2019;
+
+select * from series;
+
+select * from episodios;
+
+--id 2 em series é la casa de papel 
+
+insert into episodios(serie_id,titulo,sequencia,descricao) values(2,"piloto","0","assistam é bom...");
+
+insert into episodios(serie_id,titulo,sequencia,descricao) values(2,"Ep-5","5","morreu o carinha la com uma bazucada no peito");
+
+insert into episodios(serie_id,titulo,sequencia,descricao) values(2,"Ep-1","1","professor fala nada mas sabe de tudo");
+
+insert into episodios(serie_id,titulo,sequencia,descricao) values(6,"Ep-24","24","prova chunin");
+
+insert into episodios(serie_id,titulo,sequencia,descricao) values(6,"Ep-1","1","dia que me tornei um shi")
+
+insert into episodios(serie_id,titulo,sequencia,descricao) values(6,"Ep-47","47","uma morte digna");
+
+insert into episodios(serie_id,titulo,sequencia,descricao) values(7,"Ep-30","30","partida");
+
+
+
+
+select * from episodios;
+
+--on é o where entre tabelas
+--asc ascendente
+select * from series as se
+inner join episodios as ep on ep.serie_id=se.id
+where  se.id=2
+order by ep.sequencia desc
+;
+ 
+select * from series as se
+left join episodios as ep on ep.serie_id=se.id
+order by se.nome,ep.sequencia 
+;
+
+-- para fazer contagens ou (agrupadores) é necessario informar quais campos se repetem
+-- e esses campos dvem ser os unicos no select
+-- os de mais campos sao os de agrupamentos como (count,sum)
+-- NÃO é legal usar left com count -- usar INNER 
+--Os campos mencionados no select devem existir no GROUP BY 
+select 
+se.nome,
+count(*)
+from series as se
+inner join episodios as ep on ep.serie_id=se.id
+group by se.nome;
+
+--Para consultas com CONTAGEM  ou agrupamentos não devo usar LEFT pois
+--sempre que falta o relacionamento é gerado no minimo UMA LINHA vazia
+-- que não configura relacionamento 
+
+
+
+
+
+
+
+
+
+
+
+
